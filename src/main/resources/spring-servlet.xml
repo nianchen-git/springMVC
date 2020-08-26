@@ -36,7 +36,7 @@
     <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
         <!--jsp径位置 webapp下-->
-        <!--<property name="prefix" value="/jsp/"/>-->
+        <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 </beans>
