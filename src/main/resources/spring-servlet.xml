@@ -39,4 +39,17 @@
         <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!--自定义参数绑定-->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
+        <property name="converters">
+            <set>
+                <ref bean="dateConverter"/>
+            </set>
+        </property>
+    </bean>
+    <!--文件上传  CommonsMultipartResolver-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
+    <mvc:resources mapping="/**" location="/"/>
 </beans>
