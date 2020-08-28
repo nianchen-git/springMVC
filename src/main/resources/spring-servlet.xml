@@ -50,6 +50,21 @@
         </property>
     </bean>
     <!--文件上传  CommonsMultipartResolver-->
-    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
+    <!--<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        &lt;!&ndash;默认编码格式&ndash;&gt;
+        <property name="defaultEncoding" value="UTF-8"/>
+        &lt;!&ndash;上传的总文件大小&ndash;&gt;
+        <property name="maxUploadSize" value="1048576"/>
+        &lt;!&ndash;上传的单个文件大小&ndash;&gt;
+        <property name="maxUploadSizePerFile" value="1048576"/>
+        &lt;!&ndash;内存中最大数据量，超过这个数据量，数据就要往硬盘里写了&ndash;&gt;
+        <property name="maxInMemorySize" value="4096"/>
+        &lt;!&ndash;临时目录，超过maxInMemorySize配置的大小后，数据开始往临时目录写，等全部上传后，再将数据合并到正式文件上传目录&ndash;&gt;
+        <property name="uploadTempDir" value="file:///D:\\file"/>
+    </bean>
+    <mvc:resources mapping="/**" location="/"/>-->
+    <!--文件上传 StandardServletMultipartResolver 无法自己配置，只能去web.xml配置 multipart-config-->
+    <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver" id="multipartResolver"/>
+    <!--静态资源默认被拦截-->
     <mvc:resources mapping="/**" location="/"/>
 </beans>

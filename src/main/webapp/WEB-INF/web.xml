@@ -33,6 +33,16 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring-servlet.xml</param-value>
         </init-param>
+        <multipart-config>
+            <!--临时文件目录，系统不会主动创建-->
+            <location>D:\\file</location>
+            <!--单个文件最大-->
+            <max-file-size>10000</max-file-size>
+            <!--总文件最大-->
+            <max-request-size>1048576</max-request-size>
+            <!--内存中最大-->
+            <file-size-threshold>4096</file-size-threshold>
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>

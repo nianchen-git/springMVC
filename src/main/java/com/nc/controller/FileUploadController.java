@@ -21,7 +21,6 @@ public class FileUploadController {
     public String upload(MultipartFile file, HttpServletRequest req){
         String format = sdf.format(new Date());
         String realPath = req.getServletContext().getRealPath("/img") + format;
-        System.out.println(req.getServletContext().getRealPath("/"));
         File folder = new File(realPath);
         if (!folder.exists()) {
             folder.mkdirs();
@@ -36,5 +35,53 @@ public class FileUploadController {
             e.printStackTrace();
         }
         return "failed";
+    }
+
+    @ResponseBody
+    @RequestMapping("/upload2")
+    public void upload2(MultipartFile[] files, HttpServletRequest req){
+        String format = sdf.format(new Date());
+        String realPath = req.getServletContext().getRealPath("/img") + format;
+        File folder = new File(realPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        try {
+            for (MultipartFile file : files) {
+                String oldName = file.getOriginalFilename();
+                String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."));
+                file.transferTo(new File(folder, newName));
+                String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/img" + format + "/" + newName;
+                System.out.println(url);
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("/upload3")
+    @ResponseBody
+    public void upload3(MultipartFile file1, MultipartFile file2, HttpServletRequest req){
+        String format = sdf.format(new Date());
+        String realPath = req.getServletContext().getRealPath("/img") + format;
+        File folder = new File(realPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        try{
+            String oldName = file1.getOriginalFilename();
+            String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."));
+            file1.transferTo(new File(folder, newName));
+            String url1 = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/img" + format + "/" + newName;
+            System.out.println(url1);
+            String oldName2 = file2.getOriginalFilename();
+            String newName2 = UUID.randomUUID().toString() + oldName2.substring(oldName2.lastIndexOf("."));
+            file2.transferTo(new File(folder, newName2));
+            String url2 = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/img" + format + "/" + newName2;
+            System.out.println(url2);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
