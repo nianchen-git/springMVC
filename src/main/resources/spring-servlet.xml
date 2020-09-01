@@ -65,6 +65,32 @@
     <mvc:resources mapping="/**" location="/"/>-->
     <!--文件上传 StandardServletMultipartResolver 无法自己配置，只能去web.xml配置 multipart-config-->
     <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver" id="multipartResolver"/>
-    <!--静态资源默认被拦截-->
+    <!--静态资源默认被拦截，打开这个拦截-->
     <mvc:resources mapping="/**" location="/"/>
+    <!--配置基本数据校验-->
+    <bean class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" id="validatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="bundleMessageSource"/>
+    </bean>
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="bundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:MyMessage</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="300"/>
+    </bean>
+    <mvc:annotation-driven validator="validatorFactoryBean"/>
+    <!--拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="myInterceptor2"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
